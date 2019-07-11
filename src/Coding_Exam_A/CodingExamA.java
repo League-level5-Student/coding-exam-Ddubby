@@ -1,6 +1,7 @@
 package Coding_Exam_A;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -21,6 +22,27 @@ public class CodingExamA {
 		 * 
 		 * See the Coding_Exam_A_Demo.jar for an example of what the finished product should look like.
 		 */
+		String num = JOptionPane.showInputDialog("How many robots?");
+		String color = JOptionPane.showInputDialog("Which color? (Red, Green, Blue)");
+		String side = JOptionPane.showInputDialog("How many sides? (<0)");
+		int numRobot = Integer.parseInt(num);
+		int numSide = Integer.parseInt(side);
+		if (color.equals("Red")) {
+			Thread r1 = new Thread(()->{ 
+				Robot r = new Robot();
+				r.setSpeed(10);
+				r.penDown();
+				r.setPenColor(Color.red);
+				for (int i = 0; i < numSide; i++) {
+					r.move(50);
+					r.turn(360/numSide);
+				}
+			});
+			r1.start();
+		}
 
+
+		
 	}
+	
 }
