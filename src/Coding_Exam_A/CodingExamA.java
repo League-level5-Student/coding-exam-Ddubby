@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import org.jointheleague.graphical.robot.Robot;
 
 public class CodingExamA {
+
 	public static void main(String[] args) {
 		/*
 		 * Write a program that asks the user for three pieces of information.
@@ -25,24 +26,36 @@ public class CodingExamA {
 		String num = JOptionPane.showInputDialog("How many robots?");
 		String color = JOptionPane.showInputDialog("Which color? (Red, Green, Blue)");
 		String side = JOptionPane.showInputDialog("How many sides? (<0)");
-		int numRobot = Integer.parseInt(num);
-		int numSide = Integer.parseInt(side);
-		if (color.equals("Red")) {
-			Thread r1 = new Thread(()->{ 
+
+		Thread[] robots = new Thread[Integer.parseInt(num)];
+		for (int i = 0; i < robots.length; i++) {
+			int x = i;
+			robots[i] = new Thread(()->{
 				Robot r = new Robot();
-				r.setSpeed(10);
-				r.penDown();
-				r.setPenColor(Color.red);
-				for (int i = 0; i < numSide; i++) {
-					r.move(50);
-					r.turn(360/numSide);
+				if (color.equals("Red")) {
+					r.setPenColor(Color.red);
+				} else if (color.contentEquals("Green")) {
+					r.setPenColor(Color.green);
+				} else {
+					r.setPenColor(Color.blue);
 				}
+				r.penDown();
+				r.setSpeed(10);
+				r.moveTo(100 + x*100, 100);
+				for (int j = 0; j < Integer.parseInt(side); j++) {
+					r.turn(360/Integer.parseInt(side));
+					r.move(50);
+				}
+
 			});
-			r1.start();
 		}
-
-
+		
+		for (int i = 0; i < robots.length; i++) {
+			robots[i].start();
+		}
+		
 		
 	}
+
 	
 }
